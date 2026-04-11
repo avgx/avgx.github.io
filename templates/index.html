@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="hello">
+    <h2>Hello</h2>
+    {{ section.content | safe }}
+</section>
+
+<h2>Latest</h2>
+<ul id="post_list">
+    {% set blog_section = get_section(path="blog/_index.md", metadata_only=false) %}
+    {% for post in blog_section.pages | slice(end=3) %}
+    <li>
+        <h3><a href="{{ post.permalink | safe }}">{{ post.title }}</a></h3>
+        {% if post.description %}
+        <p class="summary">{{ post.description }}</p>
+        {% endif %}
+        <p>{{ post.date | date(format="%B %d, %Y") }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2 class="cta-heading">Have an interesting project?</h2>
+<div class="cta-box">
+    <p>
+        If you want to collaborate or need help, <a href="{{ get_url(path='/consulting') }}">get in touch with me</a>.
+    </p>
+</div>
+{% endblock content %}

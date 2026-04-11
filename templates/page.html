@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} - {{ config.title }}{% endblock title %}
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+
+{% block og_title %}{{ page.title }}{% endblock og_title %}
+{% block og_description %}{{ page.description | default(value=config.description) }}{% endblock og_description %}
+{% block og_type %}article{% endblock og_type %}
+
+{% block content %}
+<article class="post">
+    <h1>{{ page.title }}</h1>
+    {% if page.date %}
+    <p class="summary">{{ page.date | date(format="%B %d, %Y") }}</p>
+    {% endif %}
+
+    {% if page.taxonomies.tags %}
+    <p class="post-tags">{% for tag in page.taxonomies.tags %}<a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>
+    {% endif %}
+    
+    {{ page.content | safe }}
+</article>
+{% endblock content %}

@@ -1,0 +1,576 @@
+// Переменные Nord theme
+:root {
+  --nord0: #2E3440;
+  --nord1: #3B4252;
+  --nord2: #434C5E;
+  --nord3: #4C566A;
+  --nord4: #D8DEE9;
+  --nord5: #E5E9F0;
+  --nord6: #ECEFF4;
+  --nord7: #8FBCBB;
+  --nord8: #88C0D0;
+  --nord9: #81A1C1;
+  --nord10: #5E81AC;
+  --nord11: #BF616A;
+  --nord12: #D08770;
+  --nord13: #EBCB8B;
+  --nord15: #B48EAD;
+
+  // Syntax highlighting (light mode default) — same mapping as massicotte.org
+  --syntax-text: var(--nord0);
+  --syntax-background: var(--nord6);
+  --syntax-comment: var(--nord13);
+  --syntax-keyword: var(--nord10);
+  --syntax-attribute: var(--nord9);
+  --syntax-constant: var(--nord15);
+  --syntax-highlight: var(--nord12);
+
+  // General colors
+  --primary: #181818;
+  --secondary: #7e7e7e;
+  --tertiary: #7e7e7e;
+  --background: #fefefe;
+  --emphasis: #181818;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --syntax-text: var(--nord6);
+    --syntax-background: var(--nord2);
+    --syntax-comment: var(--nord13);
+    --syntax-keyword: var(--nord10);
+    --syntax-attribute: var(--nord9);
+    --syntax-constant: var(--nord15);
+    --syntax-highlight: var(--nord12);
+
+    --primary: #bbbbbb;
+    --secondary: #eeeeee;
+    --tertiary: #666666;
+    --background: #181818;
+    --secondary-background: #262626;
+    --emphasis: #dddddd;
+  }
+}
+
+// Base styles
+html, body, ul, p, h1, ol {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 1em;
+}
+
+body {
+  margin: 0 auto;
+  line-height: 1;
+  tab-size: 4;
+  color: var(--primary);
+  background-color: var(--background);
+  font-family: "Helvetica", sans-serif;
+  font-size: 1.1em;
+  margin: 0px 10px;
+
+  @media only screen and (min-width: 768px) {
+    margin: 0px auto;
+    width: 740px;
+  }
+}
+
+// Typography
+h1, h2, h3 {
+  font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.6em;
+  margin: 20px 0px;
+  line-height: 1.3em;
+}
+
+h2 {
+  text-transform: lowercase;
+  font-size: 1.5em;
+  margin: 30px 0px 20px 0px;
+
+  &:before {
+    content: "/";
+  }
+}
+
+h3, h4 {
+  margin: 20px 0px 20px 0px;
+}
+
+p {
+  margin-left: 10px;
+  padding: 10px 0px;
+  line-height: 1.5em;
+}
+
+// Links and interactions
+a {
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+  }
+}
+
+// mailto: visibly a link (e.g. consulting page; other links stay no-underline until hover)
+.post a[href^="mailto:"] {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+strong {
+  color: var(--emphasis);
+}
+
+// Header
+header {
+  margin: 0px;
+  padding: 15px;
+  text-transform: lowercase;
+  font-size: .8em;
+  font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+
+  @media only screen and (min-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0px 80px 0px;
+  }
+
+  ul, ol {
+    list-style-type: none;
+    margin: 0px;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  h1 {
+    text-align: none;
+    font-size: 1em;
+    margin: 0px;
+    font-weight: normal;
+    padding-right: 10px;
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  ol {
+    display: flex;
+    padding: 0px;
+
+    &.links li:before {
+      content: "/";
+    }
+
+    &.socials {
+      padding: 6px 0px;
+
+      @media only screen and (min-width: 768px) {
+        padding: 0px;
+      }
+    }
+
+    li {
+      padding: 0px 10px 0px 0px;
+    }
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+  }
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  
+  h1 {
+    margin: 0;
+    padding-right: 10px;
+  }
+  
+  .socials {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    
+    li {
+      padding: 0 5px;
+    }
+  }
+}
+
+// Blog list (flat index pages — no default bullets)
+#post_list {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+
+  li {
+    padding: 0px 0px 20px 0px;
+  }
+
+  h3 {
+    padding: 0px;
+    margin: 0px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  p {
+    padding: 0px;
+    margin: 0px;
+    font-size: .9em;
+
+    &.summary {
+      padding: 5px 0px;
+    }
+  }
+}
+
+// Individual post — minimalist lists: no list-style, rail + ::before markers / counters
+.post {
+  h2 {
+    text-transform: none;
+
+    &:before {
+      content: "";
+    }
+  }
+
+  ul,
+  ol {
+    list-style: none;
+    margin: 0.85rem 0;
+    padding: 0 0 0 0.65rem;
+    border-left: 1px solid color-mix(in srgb, var(--tertiary) 45%, transparent);
+    line-height: 1.45em;
+  }
+
+  ul > li {
+    position: relative;
+    padding: 0.35rem 0 0.35rem 1.1rem;
+
+    &::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      top: 0.28rem;
+      color: var(--tertiary);
+      font-size: 1.25em;
+      line-height: 1;
+      font-weight: bold;
+    }
+  }
+
+  ul ul > li::before {
+    content: "–";
+    font-size: 0.95em;
+    font-weight: normal;
+    top: 0.32rem;
+  }
+
+  ol {
+    counter-reset: post-ol;
+
+    > li {
+      position: relative;
+      padding: 0.35rem 0 0.35rem 1.85rem;
+      counter-increment: post-ol;
+
+      &::before {
+        content: counter(post-ol) ".";
+        position: absolute;
+        left: 0;
+        top: 0.32rem;
+        min-width: 1.25em;
+        text-align: right;
+        color: var(--tertiary);
+        font-size: 0.82em;
+        font-variant-numeric: tabular-nums;
+        font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+      }
+    }
+
+    ol {
+      counter-reset: post-ol;
+    }
+  }
+
+  ul ol,
+  ol ul {
+    margin-top: 0.45rem;
+    margin-bottom: 0.45rem;
+  }
+}
+
+// Giallo line layout (required; see Zola syntax highlighting docs)
+.giallo-l {
+  display: inline-block;
+  min-height: 1lh;
+  width: 100%;
+}
+
+.giallo-ln {
+  display: inline-block;
+  user-select: none;
+  margin-right: 0.4em;
+  padding: 0.4em;
+  min-width: 3ch;
+  text-align: right;
+  opacity: 0.8;
+}
+
+// Code blocks (layout + Nord panel; token colors from giallo-*.css)
+pre {
+  margin: 10px;
+  padding: .8rem;
+  overflow: auto;
+  tab-size: 2;
+  border-radius: 8px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  code {
+    font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+    line-height: 130%;
+  }
+
+  &[data-linenos] {
+    padding: 1rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+      padding: 0;
+
+      &:nth-of-type(1) {
+        text-align: center;
+        vertical-align: top;
+        user-select: none;
+      }
+    }
+  }
+
+  mark {
+    display: block;
+    border-radius: 3px;
+    background-color: var(--syntax-highlight);
+
+    span {
+      color: var(--syntax-text) !important;
+    }
+  }
+
+  &.z-code {
+    background-color: var(--syntax-background);
+    color: var(--syntax-text);
+  }
+}
+
+// Inline code
+code {
+  font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+}
+
+// Inline code: Zola often emits `li > code` (no `<p>` in list items), so match lists/tables in posts too
+p code,
+.post li code,
+.post td code,
+.post th code,
+.post blockquote code {
+  background-color: var(--syntax-background);
+  color: var(--syntax-text);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--syntax-text) 14%, transparent);
+  overflow-wrap: anywhere;
+  font-size: 0.92em;
+}
+
+h2 code {
+  background-color: inherit;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+
+svg {
+  fill: var(--primary);
+}
+
+// Footer
+footer {
+  clear: both;
+  width: 100%;
+  font-family: "Andale Mono", "Source Code Pro", "Fira Code", AndaleMono, monospace;
+  text-transform: lowercase;
+  font-size: .8em;
+
+  div {
+    display: flex;
+    margin: 0px auto;
+
+    div {
+      padding: 20px;
+    }
+  }
+}
+
+// Utilities and components
+p.summary {
+  margin: 0px;
+  font-size: .9em;
+  font-style: italic;
+  color: var(--tertiary);
+}
+
+.post-tags {
+  margin: 0 0 0 10px;
+  padding: 0 0 12px 0;
+  font-size: 0.9em;
+  color: var(--tertiary);
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+blockquote {
+  color: var(--tertiary);
+  border-left-width: 4px;
+  border-left-style: solid;
+  font-style: italic;
+}
+
+table {
+  margin: 0px auto;
+
+  thead {
+    text-align: left;
+
+    th {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: var(--tertiary);
+      padding: 6px;
+    }
+  }
+
+  tr td {
+    padding: 4px 10px 4px 4px;
+  }
+}
+
+hr {
+  margin: 30px;
+}
+
+p.reminder {
+  font-size: .9em;
+}
+
+div.aside {
+  font-size: .9em;
+  color: var(--primary);
+  border-radius: 6px;
+  border-color: var(--secondary);
+  border-width: 0px 0px 0px 6px;
+  border-style: none none none solid;
+  padding: 8px;
+  background-color: var(--secondary-background);
+  margin: 15px;
+
+  p {
+    padding: 5px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0px 0px 0px 20px;
+  }
+}
+
+.image_container {
+  margin: 20px;
+
+  img {
+    margin: 0px auto;
+    display: block;
+    max-width: 320px;
+
+    @media only screen and (min-width: 768px) {
+      max-width: 640px;
+    }
+  }
+
+  .caption {
+    text-align: center;
+    color: var(--tertiary);
+    font-size: .9em;
+  }
+}
+
+// Hello section specific
+#hello p {
+  padding: 10px 0px 10px 10px;
+  margin: 0px 40px 0px 0px;
+}
+
+// CTA box (from original design)
+.cta-box {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--secondary-background);
+  border-radius: 4px;
+  font-size: .9em;
+
+  p {
+    margin: 0;
+    padding: 0;
+    margin-left: 0;
+  }
+}
+
+// Optional: tighter heading above CTA on home (h2 still uses global margins)
+h2.cta-heading {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ term.name }} - {{ taxonomy.name | capitalize }} - {{ config.title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ term.name }}</h1>
+
+<ul id="post_list">
+    {% for page in term.pages %}
+    <li>
+        <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+        {% if page.description %}
+        <p class="summary">{{ page.description }}</p>
+        {% endif %}
+        {% if page.date %}
+        <p>{{ page.date | date(format="%B %d, %Y") }}</p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

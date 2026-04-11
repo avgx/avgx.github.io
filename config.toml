@@ -1,0 +1,42 @@
+# config.toml
+base_url = "https://avgx.github.io"
+title = "AVGX"
+description = "A blog about iOS, CCTV, radio and ideas"
+
+compile_sass = true
+build_search_index = false
+
+# Generate sitemap
+generate_sitemap = true
+
+taxonomies = [
+    { name = "tags", feed = false },
+]
+
+# RSS - отключен
+# generate_feeds = false
+
+# Markdown options - исправленная структура
+[markdown]
+render_emoji = true
+external_links_target_blank = true
+smart_punctuation = true
+
+# Giallo highlighting: match massicotte.org-style blocks (pre.z-code + token colors)
+[markdown.highlighting]
+style = "class"
+light_theme = "github-light"
+dark_theme = "nord"
+
+# OpenGraph and other SEO
+[extra]
+author = "Avgx"
+og_image = "/images/avatar.jpg"
+#compile_sass = true
+
+# Header social links (templates/base.html)
+[extra.social]
+github = "avgx"
+linkedin = "agovorovsky"
+mastodon = "avgx"
+mastodon_instance = "mastodon.social"

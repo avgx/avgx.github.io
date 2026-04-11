@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Basic Meta -->
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    
+    <!-- OpenGraph -->
+    <meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}">
+    <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}">
+    <meta property="og:url" content="{{ current_url | default(value=get_url(path='')) }}">
+    <meta property="og:image" content="{{ get_url(path=config.extra.og_image, trailing_slash=false) }}">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Syntax themes (Giallo); style.css last so pre.z-code uses site Nord variables -->
+    <link rel="stylesheet" href="{{ get_url(path='giallo-light.css') }}" media="(prefers-color-scheme: light)">
+    <link rel="stylesheet" href="{{ get_url(path='giallo-dark.css') }}" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <h1><a href="{{ get_url(path='') | safe }}">{{ config.title }}</a></h1>
+            <ol class="socials">
+                {% if config.extra.social.mastodon and config.extra.social.mastodon_instance %}
+                <li>
+                    <a rel="me" href="https://{{ config.extra.social.mastodon_instance }}/@{{ config.extra.social.mastodon }}" target="_blank" title="Mastodon">
+                        <svg class="social-icon">
+                            <use href="/minima-social-icons.svg#mastodon"></use>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+                {% if config.extra.social.linkedin %}
+                <li>
+                    <a href="https://www.linkedin.com/in/{{ config.extra.social.linkedin }}" target="_blank" title="LinkedIn">
+                        <svg class="social-icon">
+                            <use href="/minima-social-icons.svg#linkedin"></use>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+                {% if config.extra.social.github %}
+                <li>
+                    <a href="https://github.com/{{ config.extra.social.github }}" target="_blank" title="GitHub">
+                        <svg class="social-icon">
+                            <use href="/minima-social-icons.svg#github"></use>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+            </ol>
+        </div>
+        {% set tags_taxonomy = get_taxonomy(kind='tags') %}
+        <ol class="links">
+            <li><a href="{{ get_url(path='/blog') | safe }}">blog</a></li>
+            <li><a href="{{ tags_taxonomy.permalink | safe }}">tags</a></li>
+            <li><a href="{{ get_url(path='/about') | safe }}">about</a></li>
+            <li><a href="{{ get_url(path='/consulting') | safe }}">hire me</a></li>
+        </ol>
+    </header>
+    <main id="main">
+        {% block content %}{% endblock content %}
+    </main>
+    <footer>
+        <div>
+            <div>© {{ now() | date(format="%Y") }} {{ config.extra.author }}</div>
+        </div>
+    </footer>
+</body>
+</html>

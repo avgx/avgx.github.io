@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+
+<ul id="post_list">
+    {% for page in section.pages %}
+    <li>
+        <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+        {% if page.description %}
+        <p class="summary">{{ page.description }}</p>
+        {% endif %}
+        <p>{{ page.date | date(format="%B %d, %Y") }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
