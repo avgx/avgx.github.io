@@ -1,51 +1,43 @@
 +++
-title = "SwiftUI List: selection, editMode, and NavigationLink without the foot-guns"
-description = "Stable multi-select with value-based navigation: explicit editMode, constant empty selection, and hit testing."
+title = "SwiftUI List: selection, editMode, and NavigationLink together"
+description = "Own edit mode, keep a non-nil selection binding, and turn off link hit testing while editing so multi-select stays predictable."
 date = 2026-04-10
 
 [taxonomies]
 tags = ["swift", "swiftui", "list", "navigation"]
 +++
 
-Combining `List(selection:)`, `editMode`, and `NavigationLink` on one screen often leads to:
+`List(selection:)`, `.environment(\.editMode, ...)`, and `NavigationLink` in one screen is a combination that works until it does not. In practice you often see three symptoms: edit mode drops back to inactive after data changes (for example right after **Add**), taps navigate when the user meant to toggle selection, or the row subtree swaps between two different layouts and the transition feels rough.
 
-1. **Edit mode resetting** when list data changes (for example after **Add**), even though the user never tapped **Done**.
-2. **Taps navigating** instead of toggling selection while the list appears to be in selection mode.
-3. **Visual flicker** if you replace the entire row subtree when switching modes.
+None of that is you “using SwiftUI wrong.” It is mostly configuration and gesture ownership. The fix is a small set of rules you can apply once and reuse.
 
-## What usually goes wrong
+## What is actually going wrong
 
-- Passing `selection: nil` when not editing switches `List` between different configurations. When the list reloads, environment-driven `editMode` can be disturbed.
-- `NavigationLink` participates in hit testing and can consume gestures meant for row selection.
+`List` has more than one initializer family. If you pass `selection: nil` when the user is not editing, you switch between different list configurations; when the array reloads, environment-driven edit mode can reset in surprising ways.
 
-## A stable pattern
+Separately, `NavigationLink` is still a control. It participates in hit testing, so in selection mode it can eat the tap that the list wants for the checkmark.
 
-1. **Own `EditMode`** with `@State` and inject it using `.environment(\.editMode, $editMode)` so the list is not the implicit owner of that state.
-2. **Always pass a `Binding<Set<ID>>` to `List`**: use `$selection` while editing, and **`.constant([])`** when not editing—avoid `nil` so the list does not flip initializer shapes.
-3. **Keep a single row tree**: keep `NavigationLink`, and use **`.allowsHitTesting(editMode != .active)`** so selection receives taps while editing.
-4. Show **`EditButton()`** only when already in edit mode (it becomes **Done**). Enter edit mode with a separate control (menu, button, etc.).
+## A pattern that stays stable
 
-## Inline reference (split across sections)
+Hold **`EditMode` in `@State`** and inject it with `.environment(\.editMode, $editMode)`. That makes the screen the source of truth instead of letting the list implicitly own mode.
 
-The runnable sample lives in **one file** at the end of this article: copy it into `ListSelectionEditModeDemo.swift` (or any name) in a SwiftUI app target and open **Preview**.
+**Always pass a `Binding<Set<ID>>` to `List`:** bind `$selection` while `editMode == .active`, and use `.constant([])` when inactive. Avoid `nil` for selection so you do not change which `List` initializer you are using across toggles.
 
----
+**Keep one row hierarchy.** Keep the `NavigationLink` wrapper, and set `.allowsHitTesting(editMode != .active)` on it while editing. Selection receives taps; outside edit mode, navigation behaves as usual. If you instead swap the entire row type between modes, you get more layout churn than you need.
 
-## Appendix — full listing
+**Toolbar:** show `EditButton()` only while editing (where it acts as **Done**). Enter edit mode from a separate control—a menu or a dedicated button—so “edit” and “done” are not fighting the same placement.
 
-Paste the block below into a single `.swift` file in your project. It has no external dependencies beyond SwiftUI.
+## Example you can paste into a preview
+
+Drop this into a single file in a SwiftUI target. It has no dependencies beyond SwiftUI.
 
 ```swift
 import SwiftUI
-
-// MARK: - Demo model
 
 private struct Item: Identifiable, Hashable {
     let id: UUID
     var title: String
 }
-
-// MARK: - Screen
 
 private struct SelectionListScreen: View {
     @State private var items: [Item] = [
@@ -122,10 +114,12 @@ private struct SelectionListScreen: View {
 }
 ```
 
-### Checklist
+## When something still feels off
 
-| Symptom | Mitigation |
-|--------|------------|
-| Edit or selection resets on data reload | `@State editMode` + `.environment(\.editMode, $editMode)` |
-| Selection taps trigger navigation | `.allowsHitTesting(false)` on `NavigationLink` while `editMode == .active` |
-| Janky mode transitions | Same row hierarchy; disable link instead of swapping row type |
+If edit or selection resets after inserts or reloads, double-check that you are not passing `selection: nil` in inactive mode and that `editMode` is the same `@State` you inject into the environment.
+
+If taps still navigate while editing, confirm hit testing is disabled on the link (not only on an inner label) for the whole row.
+
+If the mode transition animates in a way you dislike, prefer the same row tree and only change hit testing and selection binding, rather than replacing `NavigationLink` with a plain row in edit mode.
+
+For keeping list rows small while sharing a common layout, [List, row, and detail: Named, typealiases, and extensions](@/blog/list-row-detail-protocol-extensions.md) walks through a `Named` protocol and extensions on existing types.
