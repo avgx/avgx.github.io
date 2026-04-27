@@ -63,8 +63,8 @@ This turns pinning from a binary pass/fail into a decision the user participates
 - CertificateInfo wraps SecCertificate properties: sha256, sha1, commonName, subjectSummary, validity dates where available (iOS 18+/macOS 15+).
 - All errors are typed (SSLPinningError) so you can switch on unknownHost vs pinMismatch vs systemTrustFailed in your UI code.
 
-## How this fits next to the request slice
+## Server trust, not request shape
 
-Pinning and `URLSessionDelegate` are **transport**. They are not part of describing an endpoint’s method, path, or response type. `SSLPinning` does not replace or embed a request model: it answers server-trust challenges only, so trust policy stays beside the session you already configure.
+`SSLPinning` answers whether **this** certificate chain is acceptable for **this** host. That question opens in the delegate when `URLSession` asks for server trust; it does not belong in how you spell method, path, headers, or the type you decode into.
 
-That is the same boundary as in the first post in this series, which keeps `URLRequest` construction and decoding separate from “what the call means.” For that descriptive layer, see [RequestResponse: describe HTTP requests, keep transport separate](@/blog/http-request-response-package.md).
+[RequestResponse](@/blog/http-request-response-package.md) covers the other side of the line: what the backend expects on the wire, described **without** folding session configuration or trust policy into the same abstraction.
