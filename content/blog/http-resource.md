@@ -7,7 +7,7 @@ date = 2026-05-31
 tags = ["swift", "http", "swiftpm", "architecture", "swiftui"]
 +++
 
-This note continues the small HTTP series — see [RequestResponse](@/blog/http-request-response-package.md) for request shape and decode. 
+This note continues the small HTTP series.
 Here the focus shifts to **what the app shows while data moves**: manager and UI state after the network call, not the wire format itself.
 
 The published slice is [**Resource**](https://github.com/avgx/Resource).
@@ -139,11 +139,3 @@ case .stale(let items, let error):
 }
 ```
 
-## Out of scope
-
-No networking, repository protocol, or retry policy. 
-The package is only the state type — compose it with [RequestResponse](@/blog/http-request-response-package.md) (or any client) on the side that actually fetches.
-
----
-
-[RequestResponse](@/blog/http-request-response-package.md) describes the call; **Resource** describes what your screen holds while those calls run.
