@@ -12,6 +12,20 @@ Here the focus shifts to **what the app shows while data moves**: manager and UI
 
 The published slice is [**Resource**](https://github.com/avgx/Resource).
 
+## Code
+
+```swift
+public enum Resource<Value, Failure>
+where Value: Equatable & Sendable, Failure: Error & Equatable & Sendable {
+    case idle
+    case loading
+    case available(Value)
+    case refreshing(Value)
+    case failed(Failure)
+    case stale(Value, Failure)
+}
+```
+
 ## What problem it solves
 
 Most screens need to answer more than “do we have a value?”:
