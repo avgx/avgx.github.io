@@ -1,5 +1,5 @@
 +++
-title = "Superapp features without AnyView"
+title = "Compose superapp features without AnyView"
 description = "Type-erasing feature roots resets SwiftUI identity. Identify screens with FeatureID, compose them with a typed ViewBuilder in each app, and link only the packages that app ships."
 date = 2026-08-22
 
@@ -7,7 +7,7 @@ date = 2026-08-22
 tags = ["swift", "swiftui", "architecture", "swiftpm"]
 +++
 
-Several superapps share a pool of feature packages. Each app ships its own subset: a full VMS client app might include cameras and events; a doorbell app might ship cameras and intercom.
+I ship several superapps from one pool of feature packages. Each app ships its own subset: a full VMS client app might include cameras and events; a doorbell app might ship cameras and intercom.
 
 The useful constraint is that **an app should only link the features it shows.** Camera UI must not pull in events or intercom. A shared host that observes the session should not import every screen just to pick one `rootView`.
 

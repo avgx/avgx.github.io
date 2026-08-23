@@ -9,7 +9,7 @@
 <h2>Latest</h2>
 <ul id="post_list">
     {% set blog_section = get_section(path="blog/_index.md", metadata_only=false) %}
-    {% for post in blog_section.pages | slice(end=3) %}
+    {% for post in blog_section.pages[:3] %}
     <li>
         <h3><a href="{{ post.permalink | safe }}">{{ post.title }}</a></h3>
         {% if post.description %}
